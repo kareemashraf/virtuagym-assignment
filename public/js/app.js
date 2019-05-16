@@ -175,10 +175,12 @@ $( document ).ready(function() {
 
     // on updating an existing day including its exercises  
     $(".update-day").on('click',function(){  
+        
+        var user_id = $('.user_id').val();
         var day_id = $('.day_id').val();
         var day_title = $('.day_title').val();
 
-        var params = {'id': day_id, 'title': day_title };
+        var params = {'id': day_id, 'title': day_title, 'user_id': user_id };
         ajax_handler('/api/days', params, 'PUT', this);
 
         var exercise_id = {};

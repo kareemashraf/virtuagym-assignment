@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use View;
 use App\Day;
 use App\Exercise;
+use DB;
 
 class DayController extends Controller
 {   
@@ -37,7 +38,14 @@ class DayController extends Controller
     		$data['exercise'][$key]['exercise_title'] = $value->title;
     		$data['exercise'][$key]['exercise_description'] = $value->description;
     	}
-// dd($data);
+
+        $users = DB::table('users')
+            ->join('plans', 'users.id', '=', 'plans.user_id')
+            ->join('days', 'plans.id', '=', 'days.plan_id')
+            ->select('users.id as user_id')
+            ->first();
+        $data['user_id'] = $users->user_id;
+
         return View::make('day', array('data' => $data) );
     }
 
@@ -54,6 +62,9 @@ class DayController extends Controller
         $id =  $request->id;
         $day = Day::findOrFail($id);
         $day->update($request->all());
+
+        $message = 'your Plan`s day (" '.$day->title.' ") has been updated "';
+        self::send_email($request->user_id, $message); // send email to the user
 
         return $day;
     }

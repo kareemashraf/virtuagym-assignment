@@ -14,6 +14,7 @@
                     <div class="card user-card" style="">
                         <div class="card-body">
                             <h4 class="card-title"> 
+                            <input type="hidden" class="form-control user_id"  value="{{ $data['user_id'] }}">    
                             <input type="hidden" class="form-control day_id"  value="{{ $data['day_id'] }}">
                             <input type="text" class="form-control day_title"  value="{{ $data['day_title'] }}">
                             <hr>
