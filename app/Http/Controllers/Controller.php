@@ -15,14 +15,16 @@ class Controller extends BaseController
 
      public function send_email($user_id)
     {
-    	$user = User::find($user_id);
+    	    	$user = User::find($user_id);
 
-		$msg = "Hello ".$user->firstname."\n You have been assigned to a Workout Plan!";
-
-		// use wordwrap() if lines are longer than 70 characters
-		$msg = wordwrap($msg,90);
+		$to      = $user->email;
+		$subject = 'Virtuagym test Notification';
+		$message = "Hello ".$user->firstname."\n You have been assigned to a Workout Plan!";
+		$headers = 'From: Admin@Virtuagym.com' . "\r\n" .
+		    'Reply-To: Admin@Virtuagym.com' . "\r\n" .
+		    'X-Mailer: PHP/' . phpversion();
 
 		// send email using php mail, should change to use SMTP or AWS SES api instead 
-		mail($user->email,"My subject",$msg);
+		mail($to, $subject, $message, $headers); 
     }
 }
